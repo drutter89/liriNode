@@ -1,3 +1,4 @@
+require("dotenv").config();
 var request = require('request');
 var keys = require("./keys");
 var {
@@ -5,12 +6,13 @@ var {
   TWITTER_CONSUMER_SECRET,
   TWITTER_ACCESS_TOKEN_KEY,
   TWITTER_ACCESS_TOKEN_SECRET,
-  SPOTIFY_ID,
-  SPOTIFY_SECRET,
+  SPOTIFY,
   OMDB_URL
 } = require('./keys'); //destructuring
 var inquirer = require('inquirer');
 var Spotify = require('node-spotify-api');
+
+var parameter = process.argv[3];
 
 
 inquirer
@@ -40,7 +42,7 @@ inquirer
       console.log(typeof sortedArr, sortedArr)
     } else if (data.option === 'Maps') {
       findLocation(data.searchTerm)
-    } else if (data.option === 'Spotify"') {
+    } else if (data.option === 'Spotify') {
       getSpotify(data.searchTerm)
     }
   });
@@ -65,20 +67,17 @@ function findLocation(searchTerm) {
 }
 
 function getSpotify(searchTerm) {
-
-  var spotify = new Spotify({
-    id: SPOTIFY_ID,
-    secret: SPOTIFY_SECRET
-  });
+  console.log(SPOTIFY);
+  var spotify = new Spotify(SPOTIFY);
 
   spotify.search({
     type: 'track',
-    query: 'All the Small Things'
+    query: searchTerm
   }, function (err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
 
-    console.log(data.getSpotify);
+    console.log(data);
   });
 }
