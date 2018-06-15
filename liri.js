@@ -17,12 +17,12 @@ inquirer
   .prompt([{
     type: 'list',
     name: 'option',
-    choices: ['Twitter', 'Movies', 'Spotify', 'Maps', 'Sort'],
+    choices: ['Twitter', 'Movies', 'Spotify'],
     message: 'Where do you want to search?',
   }, {
     type: 'input',
     name: 'searchTerm',
-    message: 'Tell me what you are looking for my dear.',
+    message: 'Hi! My name is Liri. Let me know what you need help finding!',
   }])
   .then(data => {
     if (data.option === 'Movies') {
