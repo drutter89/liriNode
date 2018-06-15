@@ -2,15 +2,13 @@ require("dotenv").config();
 var request = require('request');
 var keys = require("./keys");
 var {
-  TWITTER_CONSUMER_KEY,
-  TWITTER_CONSUMER_SECRET,
-  TWITTER_ACCESS_TOKEN_KEY,
-  TWITTER_ACCESS_TOKEN_SECRET,
+  TWITTER,
   SPOTIFY,
   OMDB_URL
 } = require('./keys'); //destructuring
 var inquirer = require('inquirer');
 var Spotify = require('node-spotify-api');
+var Twitter = require('twitter');
 
 var parameter = process.argv[3];
 
@@ -40,10 +38,10 @@ inquirer
         return a - b
       })
       console.log(typeof sortedArr, sortedArr)
-    } else if (data.option === 'Maps') {
-      findLocation(data.searchTerm)
     } else if (data.option === 'Spotify') {
       getSpotify(data.searchTerm)
+    } else if (data.option === 'Twitter') {
+      getTwitter(data.searchTerm)
     }
   });
 
@@ -54,15 +52,6 @@ function getMovie(searchTerm) {
     console.log('body:', body); // Print the HTML for the Google homepage.
   });
 
-
-}
-
-function findLocation(searchTerm) {
-  request(OMDB_URL + searchTerm, function (error, response, body) {
-    console.log('error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body); // Print the HTML for the Google homepage.
-  });
 
 }
 
@@ -79,5 +68,23 @@ function getSpotify(searchTerm) {
     }
 
     console.log(data);
+  });
+}
+
+function getTwitter(searchTerm) {
+  console.log(TWITTER);
+  var client = new Twitter(TWITTER);
+
+  var params = {
+    screen_name: 'Dylan79984767'
+  };
+  client.get('statuses/user_timeline', params, function (error, tweets, response) {
+    if (!error) {
+      for (var i = 0; i < tweets.length; i++) {
+        var tweet = ('\n' + "Created On: " + tweets[i].created_at + '\n' + tweets[i].text + '\n');
+        console.log(tweet);
+
+      }
+    }
   });
 }
