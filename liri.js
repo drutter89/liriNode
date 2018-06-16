@@ -11,7 +11,6 @@ var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
 var fs = require("fs");
 
-var parameter = process.argv[3];
 
 
 inquirer
@@ -48,36 +47,38 @@ inquirer
 
 function getMovie(searchTerm) {
   request(OMDB_URL + searchTerm, function (error, response, body) {
+    var jsonData = JSON.parse(body);
+    console.log(jsonData);
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body); // Print the HTML for the Google homepage.
-    fs.appendFile("random.txt", response, function (err) {
+    fs.appendFile("random.txt", JSON.stringify(jsonData), function (err) {
       if (err) throw err;
+
     });
   });
 }
 
 function getSpotify(searchTerm) {
-  console.log(SPOTIFY);
+  // console.log(SPOTIFY);
   var spotify = new Spotify(SPOTIFY);
-
   spotify.search({
-    type: 'track',
+    type: 'artist',
     query: searchTerm
   }, function (err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    fs.appendFile("random.txt", data, function (err) {
+    fs.appendFile("random.txt", JSON.stringify(data), function (err) {
       if (err) throw err;
-      console.log(data);
+      console.log(JSON.stringify(data));
     });
-    console.log(data);
   });
 }
 
+
+
 function getTwitter(searchTerm) {
-  console.log(TWITTER);
+  // console.log(TWITTER);
   var client = new Twitter(TWITTER);
 
   var params = {
@@ -88,7 +89,7 @@ function getTwitter(searchTerm) {
       for (var i = 0; i < tweets.length; i++) {
         var tweet = ('\n' + "Created On: " + tweets[i].created_at + '\n' + tweets[i].text + '\n');
         console.log(tweet);
-        fs.appendFile("random.txt", tweets, function (err) {
+        fs.appendFile("random.txt", JSON.stringify(tweet), function (err) {
           if (err) throw err;
         });
       }
