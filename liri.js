@@ -80,10 +80,12 @@ function getSpotify(searchTerm) {
       return console.log('Error occurred: ' + err);
     }
     var song = data.tracks.items[0];
+    // console.log(song);
     console.log(song.artists[0].name);
     console.log(song.artists[0].type);
+    console.log(song.artists[0].release_date);
 
-    fs.appendFile("random.txt", JSON.stringify(data), function (err) {
+    fs.appendFile("random.txt", JSON.stringify(song.artists[0].name + song.artists[0].type), function (err) {
       if (err) throw err;
       return secondStart();
     });
