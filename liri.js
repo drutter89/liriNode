@@ -60,8 +60,8 @@ function getMovie(searchTerm) {
   request(OMDB_URL + searchTerm, function (error, response, body) {
     var jsonData = JSON.parse(body);
     // return console.log(jsonData);
-    return console.log(jsonData.title);
-    return console.log(jsonData.year);
+    return console.log(jsonData[0].title);
+    return console.log(jsonData[0].year);
     return console.log(jsonData.rated);
     return console.log(jsonData.released);
     console.log('error:', error); // Print the error if one occurred
