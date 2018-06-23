@@ -27,7 +27,7 @@ function start() {
       message: 'Hi! My name is Liri. Let me know what you need help finding!',
     }])
     .then(data => {
-      if (data.option === 'Movies') {
+      if (data.option === 'Movie_Search') {
 
         getMovie(data.searchTerm)
       } else if (data.option === 'Spotify_Song_Search') {
@@ -59,7 +59,7 @@ function secondStart() {
 function getMovie(searchTerm) {
   request(OMDB_URL + searchTerm, function (error, response, body) {
     var jsonData = JSON.parse(body);
-    console.log(jsonData);
+    return console.log(jsonData);
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     fs.appendFile("random.txt", JSON.stringify(jsonData), function (err) {
@@ -83,8 +83,6 @@ function getSpotify(searchTerm) {
     // console.log(song);
     console.log(song.artists[0].name);
     console.log(song.artists[0].type);
-    console.log(song.artists[0].release_date);
-
     fs.appendFile("random.txt", JSON.stringify(song.artists[0].name + song.artists[0].type), function (err) {
       if (err) throw err;
       return secondStart();
