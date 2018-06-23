@@ -81,8 +81,6 @@ function getSpotify(searchTerm) {
     // console.log(song);
     console.log(song.artists[0].name);
     console.log(song.artists[0].type);
-    console.log(song.external_urls[1].release_date);
-
     fs.appendFile("random.txt", JSON.stringify(song.artists[0].name + song.artists[0].type), function (err) {
       if (err) throw err;
       return secondStart();
