@@ -58,7 +58,6 @@ function getMovie(searchTerm) {
   request(OMDB_URL + searchTerm, function (error, response, body) {
     var jsonData = JSON.parse(body);
     console.log(jsonData);
-    // return console.log(jsonData[0].year);
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     fs.appendFile("random.txt", JSON.stringify(jsonData), function (err) {
